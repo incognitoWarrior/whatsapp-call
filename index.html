@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Copy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: changeBackground 10s linear infinite alternate;
+        }
+
+        @keyframes changeBackground {
+            0% { background: linear-gradient(135deg, #c850c0, #4158d0); }
+            25% { background: linear-gradient(135deg, #4158d0, #c850c0); }
+            50% { background: linear-gradient(135deg, #c850c0, #4158d0); }
+            75% { background: linear-gradient(135deg, #4158d0, #c850c0); }
+            100% { background: linear-gradient(135deg, #c850c0, #4158d0); }
+        }
+
+        .input-container {
+            width: 50%;
+        }
+
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            background-color: #f8f8f8;
+            transition: 0.3s;
+            display: none;
+        }
+
+        input[type=text].show {
+            display: block;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .copy-btn, .back-btn {
+            background-color: #9b59b6;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 48%;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover, .back-btn:hover {
+            background-color: #8e44ad;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        .input-container:hover input[type=text] {
+            background-color: #fff;
+        }
+
+        .copy-btn:hover, .back-btn:hover {
+            background-color: #8e44ad;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            background-color: #2980b9;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #2471a3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <input type="text" id="linkInput" value="https://call.whatsapp.com/voice/MkHWCaEV859VYSqndLOvKi" class="show">
+        <div class="btn-container">
+            <button class="copy-btn" onclick="copyLink()">Copy Link</button>
+            <button class="back-btn" onclick="goBack()">Back</button>
+        </div>
+        <div class="loader" id="loader"></div>
+    </div>
+
+    <script>
+        function copyLink() {
+            var copyText = document.getElementById("linkInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Copy attempt was ' + msg);
+                if (successful) {
+                    var loader = document.getElementById("loader");
+                    loader.classList.add("show");
+                    setTimeout(function(){
+                        loader.classList.remove("show");
+                        alert("Link copied: " + copyText.value);
+                        alert("Sent link to your friend for join call\nستاسو ملګري ته د زنګ وهلو لپاره لینک لیږل شوی");
+                        copyText.style.display = 'block';
+                    }, 5000); // Display "Ready for call" message after 5 seconds
+                }
+            } catch (err) {
+                console.error('Unable to copy', err);
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
